@@ -1,13 +1,20 @@
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import './App.css';
 import Beranda from '../src/components/Beranda';
 import Navbar from '../src/components/Navbar';
+import ManejemenBuku from './components/ManejemenBuku';
 
 function App() {
   return (
     <div>
+    <BrowserRouter>
       <Navbar />
-      <Beranda />
+     <Routes>
+        <Route path="/" exact element={<Beranda />} />
+
+        <Route path="/manejemen-buku" element={<ManejemenBuku/>} />
+     </Routes>
+    </BrowserRouter>
     </div>
   );
 }
