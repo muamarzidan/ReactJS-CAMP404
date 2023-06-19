@@ -7,6 +7,9 @@ function ManejemenBuku () {
     function showcreateFrom() {
         setFormMode("show");
     }
+    function showEditForm() {
+        setFormMode("show");
+    }
 
     return (
         <div className="container mt-3">
@@ -30,7 +33,7 @@ function ManejemenBuku () {
                     </div>
                 </div>
             )}
-            <TabelBuku />
+            <TabelBuku showEdit={showEditForm} />
         </div>
     );
 }
