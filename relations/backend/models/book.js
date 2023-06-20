@@ -13,8 +13,7 @@ const bookSchema = new Schema(
         }
     },
     {
-        collection: 'koleksiBuku',
-        timestamps: true
+        collection: 'koleksiBuku'
     }
 );
 
