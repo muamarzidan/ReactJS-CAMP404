@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TabelBuku from './TabelBuku';
+import axios from 'axios';
 
 function ManejemenBuku () {
     const [formMode, setFormMode] = useState("");
+    const [books, setBooks] = useState([]);
 
     function showcreateFrom() {
         setFormMode("show");
@@ -11,6 +13,20 @@ function ManejemenBuku () {
         setFormMode("show");
     }
 
+    useEffect(() => {
+        retrieveBooks();
+    }, []);
+
+    function retrieveBooks() {
+        axios.get("http://localhost:4000/book")
+        .then((response) => {
+            setBooks(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+    
     return (
         <div className="container mt-3">
             <h1 className="text-center">Manejemen Buku</h1>
@@ -33,7 +49,7 @@ function ManejemenBuku () {
                     </div>
                 </div>
             )}
-            <TabelBuku showEdit={showEditForm} />
+            <TabelBuku showEdit={showEditForm} books={books}/>
         </div>
     );
 }
