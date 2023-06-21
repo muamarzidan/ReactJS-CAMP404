@@ -10,14 +10,14 @@ akses.route("/").get((req, res) => {
 
 akses.route("/add").post((req, res) => {
     BookModel.create(req.body)
-        .then((dataceatebook) => res.status(200).json({ message: "Data buku berhasil ditambahkan", data: dataceatebook }))
-        .catch((err) => res.status(400).json("Error: " + err));
+        .then((datacreatebook) => res.status(200).json({ message: "Data buku berhasil ditambahkan", data: datacreatebook }))
+        .catch((err) => res.status(400).json("Error: " + err)); 
     }
 );
 
-akses.route("/update/:id").get((req, res) => {
+akses.route("/update/:id").put((req, res) => {
     BookModel.findByIdAndUpdate(req.params.id, req.body, {new: true})
-        .then((dataupdatebook) => res.json(dataupdatebook, "Data buku berhasil diupdate"))
+        .then((dataupdatebook) => res.status(200).json({message: "Data buku berhasil diupdate", data: dataupdatebook}))
         .catch((err) => res.status(400).json("Error: " + err));
     }
 );

@@ -8,10 +8,12 @@ function ManejemenBuku () {
     const [inputForm, setInputForm] = useState();
 
     function showcreateFrom() {
-        setFormMode("show");
+        setInputForm("");
+        setFormMode("create");
     }
-    function showEditForm() {
-        setFormMode("show");
+    function showEditForm(book) {
+        setInputForm(book);
+        setFormMode("edit");
     }
     function handleJudul(event) {
         setInputForm({...inputForm, judul: event.target.value});
@@ -21,20 +23,29 @@ function ManejemenBuku () {
     }
     function submitForm(event) {
         event.preventDefault();
-        axios.post("http://localhost:4000/book/add", inputForm)
-        .then((response) => {
-            alert("Data berhasil ditambah ", response.data.message);
-            retrieveBooks();
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        if (formMode === "create") {
+            axios.post("http://localhost:4000/book/add", inputForm)
+                .then(() => {
+                    alert("Data berhasil di buat");
+                    retrieveBooks();
+                }).catch((error) => {
+                    console.log(error.response)
+                })
+        } 
+        if (formMode === "edit") {
+            axios.put("http://localhost:4000/book/update/" + inputForm._id, inputForm)
+                .then(() => {
+                    retrieveBooks();
+                    alert("Data berhasil di ubah");
+                }).catch((error) => {
+                    console.log(error.response)
+                })
+        }
     }
 
     useEffect(() => {
         retrieveBooks();
     }, []);
-
     function retrieveBooks() {
         axios.get("http://localhost:4000/book")
         .then((response) => {
@@ -49,16 +60,16 @@ function ManejemenBuku () {
         <div className="container mt-3">
             <h1 className="text-center">Manejemen Buku</h1>
             <button className='btn btn-sm btn-primary' onClick={showcreateFrom} >Tambah Buku</button>
-            {formMode === "show" && (
+            {formMode !== "" && (
                 <div id='form' className='card py-2 my-3 bg-secondary'>
                     <div className='card-body'>
                         <h5 className='card-title text-white'>Form</h5>
                         <form className='row' onSubmit={submitForm}>
                             <div className='col-6'>
-                                <input type='text' name='judul' className='form-control mx-2' placeholder='judul' onChange={handleJudul} />
+                                <input type='text' name='judul' className='form-control mx-2' placeholder='judul' onChange={handleJudul} value={inputForm.judul || ""} />
                             </div>
                             <div className='col-4'>
-                                <input type='text' name='pengarang' className='form-control mx-2' placeholder='pengarang' onChange={handlePengarang}/>
+                                <input type='text' name='pengarang' className='form-control mx-2' placeholder='pengarang' onChange={handlePengarang} value={inputForm.pengarang || ""}/>
                             </div>
                             <div className='col-2'>
                                 <button className='btn btn-primary'>Submit</button>
