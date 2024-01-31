@@ -6,7 +6,7 @@ require('./config/db');
 
 
 const app = express();
-const port = 4000;
+const port = 3000;
 
 app.use(morgan('tiny'));
 app.use(cors());

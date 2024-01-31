@@ -1,5 +1,3 @@
-import react from 'react';
-
 function TabelBuku({ showEdit, books }) {
     function editData(book) {
         showEdit(book);
